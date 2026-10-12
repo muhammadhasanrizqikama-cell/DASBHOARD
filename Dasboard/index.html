@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>satamart - Dashboard</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-size: .875rem;
+            background-color: #f8f9fa;
+        }
+        /* Sidebar persis seperti gambar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            padding: 0;
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+            background-color: #f8f9fa;
+            width: 240px;
+        }
+        .sidebar-heading {
+            font-size: 1rem;
+            padding: 0.75rem 1rem;
+            color: #fff;
+            background-color: #212529;
+        }
+        .sidebar .nav-link {
+            font-weight: 500;
+            color: #0d6efd;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2px;
+        }
+        .sidebar .nav-link.active {
+            color: #0d6efd;
+        }
+        .sidebar .nav-link:hover {
+            color: #0a58ca;
+            background-color: rgba(13, 110, 253, 0.05);
+        }
+        .sidebar .nav-link.text-danger:hover {
+            background-color: rgba(220, 53, 69, 0.05);
+        }
+        
+        .navbar-brand {
+            padding-top: .75rem;
+            padding-bottom: .75rem;
+            background-color: rgba(0, 0, 0, .25);
+            box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+        }
+        main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+        .table-responsive {
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">SATAMART</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="sidebar d-md-block collapse">
+                <div class="position-sticky pt-3 d-flex flex-column justify-content-between" style="height: calc(100vh - 48px);">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-house-door me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-file-earmark-text me-2"></i> Orders
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active fw-bold" href="#">
+                                <i class="bi bi-cart me-2"></i> Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-people me-2"></i> Customers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-graph-up me-2"></i> Reports
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="bi bi-puzzle me-2"></i> Integrations
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="nav flex-column mb-2 border-top pt-2">
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="#">
+                                <i class="bi bi-box-arrow-right me-2"></i> Sign out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+           
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="h4 mb-3">Data Produk</h3>
+                    <button class="btn btn-secondary btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                        Add Product
+                    </button>
+
+                    <div class="table-responsive border rounded">
+                        <table class="table table-striped table-hover align-middle mb-0">
+                            <thead class="table-light border-bottom">
+                                <tr>
+                                    <th scope="col" style="width: 10%;">No</th>
+                                    <th scope="col" style="width: 30%;">Nama Barang</th>
+                                    <th scope="col" style="width: 20%;">Harga</th>
+                                    <th scope="col" style="width: 25%;">Stok</th>
+                                    <th scope="col" style="width: 15%;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productTableBody">
+                                <tr>
+                                    <td>1,001</td>
+                                    <td>random</td>
+                                    <td>data</td>
+                                    <td>placeholder</td>
+                                    <td>
+                                        <a href="#" class="text-primary text-decoration-none edit-btn" onclick="openEditModal(this)">Edit</a> | 
+                                        <a href="#" class="text-danger text-decoration-none delete-btn" onclick="deleteProduct(event, this)">Hapus</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+  
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">Tambah Produk Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="mb-3">
+                            <label for="namaBarang" class="form-label">Nama Barang</label>
+                            <input type="text" class="form-control" id="namaBarang" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="hargaBarang" class="form-label">Harga</label>
+                            <input type="text" class="form-control" id="hargaBarang" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="stokBarang" class="form-label">Stok</label>
+                            <input type="text" class="form-control" id="stokBarang" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Simpan Produk</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editProductModalLabel">Edit Produk</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editProductForm">
+                        <input type="hidden" id="editRowIndex">
+                        <div class="mb-3">
+                            <label for="editNamaBarang" class="form-label">Nama Barang</label>
+                            <input type="text" class="form-control" id="editNamaBarang" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editHargaBarang" class="form-label">Harga</label>
+                            <input type="text" class="form-control" id="editHargaBarang" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editStokBarang" class="form-label">Stok</label>
+                            <input type="text" class="form-control" id="editStokBarang" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Perbarui Produk</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentEditRow = null;
+
+        
+        document.getElementById('addProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nama = document.getElementById('namaBarang').value;
+            const harga = document.getElementById('hargaBarang').value;
+            const stok = document.getElementById('stokBarang').value;
+
+            const tbody = document.getElementById('productTableBody');
+            const rowCount = tbody.rows.length;
+            const newNo = (1001 + rowCount).toLocaleString('en-US');
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${newNo}</td>
+                <td>${nama}</td>
+                <td>${harga}</td>
+                <td>${stok}</td>
+                <td>
+                    <a href="#" class="text-primary text-decoration-none edit-btn" onclick="openEditModal(this)">Edit</a> | 
+                    <a href="#" class="text-danger text-decoration-none delete-btn" onclick="deleteProduct(event, this)">Hapus</a>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+
+            this.reset();
+            const modalEl = document.getElementById('addProductModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        });
+
+        function openEditModal(element) {
+            currentEditRow = element.closest('tr');
+            const cells = currentEditRow.cells;
+
+            document.getElementById('editNamaBarang').value = cells[1].innerText;
+            document.getElementById('editHargaBarang').value = cells[2].innerText;
+            document.getElementById('editStokBarang').value = cells[3].innerText;
+
+            const editModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+            editModal.show();
+        }
+
+        document.getElementById('editProductForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (currentEditRow) {
+                currentEditRow.cells[1].innerText = document.getElementById('editNamaBarang').value;
+                currentEditRow.cells[2].innerText = document.getElementById('editHargaBarang').value;
+                currentEditRow.cells[3].innerText = document.getElementById('editStokBarang').value;
+
+                const modalEl = document.getElementById('editProductModal');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                modal.hide();
+            }
+        });
+
+        function deleteProduct(event, element) {
+            event.preventDefault();
+            if (confirm("Apakah Anda yakin ingin menghapus produk ini?")) {
+                const row = element.closest('tr');
+                row.remove();
+            }
+        }
+    </script>
+</body>
+</html>
